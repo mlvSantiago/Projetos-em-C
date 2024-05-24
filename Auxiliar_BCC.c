@@ -19,14 +19,14 @@ int menu(void)
 
     }while(materia>4 || materia<1 );
 
-    scanf("%d" , &materia);
+    
 
     return materia;
 }
 
 int conteudo_da_mat(int materia)
 {   
-    int conteudo;//mudar o ome davariavel
+    int conteudo;
     printf("\n\nEntre com o numero que corresponde ao conteudo:\n\n");
 
     switch(materia)
@@ -58,7 +58,7 @@ int conteudo_da_mat(int materia)
 
         case 4:
         printf("");
-        scanf("%d" , conteudo);
+        scanf("%d" , &conteudo);
         break;
     }
     return conteudo;
@@ -66,62 +66,87 @@ int conteudo_da_mat(int materia)
 
 int converter_base(int conteudo)
 {
-    int  num_convertido = 0 , num_bits= -1, contador_bits=0, quociente , resto, concatenar=0; 
+    int  num_decimal = 0 , num_bits= -1, quociente , resto, concatenar=0 , num_convertido=0 , alg_mais_significativo ; 
+    int num_oc;
     long int num_binario;
     
     if(conteudo>=1 && conteudo<=3 )
     {
         printf("Entre com o numero em binario:\n");
-        scanf("%d", &num_binario);
+        scanf("%ld", &num_binario);
 
+          while(num_binario!=0)
+                {
+                    num_bits++;                                     //conta numero de bits
+                    resto = num_binario % 10;                       //pega o ultimo bit
+                    num_binario = num_binario / 10;                 //retirao ultimo bit
+                    num_decimal += resto * pow(2, num_bits);        //formula para converter decimal em binario
+                }
        
+    
+    
+        switch(conteudo)
+        {
+          
+            case 1: 
+
+                
+            printf("Valor em decimal:%d\n " , num_decimal);
+       
+            break;
+            case 2://nesse caso, atentar ao fatode numeros hexa decimaispossuirem letras
+       
+       
+       
+       
+            break;
+
+            case 3://arrumar um jeito de inverter a ordem do algarismo (muito provavel ter que usar conceitos ainda nao visto)
+            
+                while(num_decimal!=0)
+                {
+                    num_convertido=num_decimal%8;
+                    num_decimal/=8;
+                    
+                    printf("Valor em octal:%d", num_convertido);
+                }
+            break;
+
+            case 4://arrumar um jeito de inverter a ordem do algarismo (muito provavel ter que usarcopnceitos ainda nao visto)
+                printf("Insira o Numero decimal:\n");
+                scanf("%d",num_decimal);
+               
+                while(num_decimal!=0){
+                    num_binario=num_decimal%2;
+                    num_decimal/=2;
+                    printf("Valor em octal:%d", num_binario);
+                }
+
+            break;
+
+            case 5:
+            printf("Insira o Numero octal:\n");
+            scanf("%d" , &num_oc);
+            
+            while(num_oc!=0)
+            {
+                num_oc/=10;
+                num_oc%=10;
+                if(num_oc==1)
+                {
+                    num_convertido=001;
+                    
+                }
+
+            }
+        }
     }
     
-    switch(conteudo)
-    {
-        case 1: 
-
-            while(num_binario!=0)
-            {
-           
-                contador_bits = num_binario/10; //tira bits
-                num_bits++;                     //conta numero de bits retirados
-                num_convertido= num_convertido + ((num_binario%10 )* pow(2, num_bits));//formula para coonverter binario em x
-
-            }
-            printf("Valor em decimal:%d\n " , num_convertido);
-       
-        break;
-        case 2://nesse caso, atentar ao fatode numeros hexa decimaispossuirem letras
-       
-       
-       
-       
-        break;
-
-        case 3:
-
-            while(resto!=0)
-            {
-                resto = num_binario%1000;
-                while(resto!=0)
-                {
-                    num_convertido= num_convertido + ((resto%10 )* pow(2, num_bits));
-                }
-               num_convertido=num_convertido*10;
-               concatenar = num_convertido + concatenar;
-                
-            }
-        printf("O numeroem octal:%d\n" , concatenar);
-        break;
-
-
-
-    }
 }
 int main(void)
 {
-    conteudo_da_mat(menu());
+    converter_base(conteudo_da_mat(menu()));
+    
     
 return 0;
 }
